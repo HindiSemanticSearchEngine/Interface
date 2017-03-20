@@ -58,8 +58,8 @@ def search(query):
                 }
             },
             "sort": [
-                { "_score": { "order": "desc" }},
-                { "date":   { "order": "desc" }}
+                { "date":   { "order": "desc" }},
+                { "_score": { "order": "desc" }}
             ]
         }
 
