@@ -2,7 +2,7 @@ import os
 from elasticsearch import Elasticsearch
 from json import dumps
 
-es = Elasticsearch("https://search-hsse-lw7qjjebuhv3pspk2v5jbtsfbq.us-west-2.es.amazonaws.com/")
+es = Elasticsearch("AWS Elasticsearch Cluster API URI")
 
 ##################################################################################################################################
 
@@ -69,6 +69,6 @@ def search(query):
         return "Some Error Occured!"
 
 if __name__ == '__main__':
-    app.secret_key = 'hsse key'
+    app.secret_key = 'Some Secret Key'
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug = True)
