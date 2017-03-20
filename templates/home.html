@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!-- Compiled and minified CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <nav class="nav-extended">
+    <div class="nav-wrapper orange darken-3 z-depth-2">
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li class="active orange">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;मुख पृष्ठ</li>
+        <li><a href="#">विशेषताए</a></li>
+        <li><a href="#">संपर्क</a></li>
+      </ul>
+    </div>
+    </nav>
+
+    <script type="text/javascript" src="https://www.google.com/jsapi">
+    </script>
+
+    <script type="text/javascript">
+      // Load the Google Transliterate API
+      google.load("elements", "1", {
+            packages: "transliteration"
+          });
+
+      function onLoad() {
+        var options = {
+            sourceLanguage:
+                google.elements.transliteration.LanguageCode.ENGLISH,
+            destinationLanguage:
+                [google.elements.transliteration.LanguageCode.HINDI],
+            shortcutKey: 'ctrl+g',
+            transliterationEnabled: true
+        };
+
+        // Create an instance on TransliterationControl with the required
+        // options.
+        var control =
+            new google.elements.transliteration.TransliterationControl(options);
+
+        // Enable transliteration in the textbox with id
+        // 'transliterateTextarea'.
+        control.makeTransliteratable(['transliterateTextarea']);
+      }
+      google.setOnLoadCallback(onLoad);
+    </script>
+
+    <body class="orange">
+      <div class="container">
+        <!-- Page Content goes here -->
+        <br><br><br><br><br><br>
+
+        <div class="row">
+          <div class="col s1 m1 l3"></div>
+          <div class="col s10 m10 l6">
+            <form action="{{url_for('index')}}" method="POST">
+              <div class="input-field white z-depth-2">
+                <input id="transliterateTextarea" name="text" type="search" required>
+                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                <i class="material-icons">close</i>
+              </div>
+            </form>
+          </div>
+          <div class="col s1 m1 l3"></div>
+        </div>
+      </div>
+      <!--Import jQuery before materialize.js-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="static/main.js"></script>
+      <!-- Compiled and minified JavaScript -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    </body>
+  </html>
