@@ -1,6 +1,10 @@
+# coding=utf-8
 import os
 from elasticsearch import Elasticsearch
 from json import dumps
+from SecretGoogleTranslationAPI import Translate
+
+translation = Translate()
 
 es = Elasticsearch("https://search-hsse-lw7qjjebuhv3pspk2v5jbtsfbq.us-west-2.es.amazonaws.com/")
 
@@ -20,6 +24,65 @@ def index():
         query = request.form['text']
 
         return redirect(url_for('search', query = query))
+
+##################################################################################################
+@app.route('/heritage',methods = ['GET','POST'])
+def heritage():
+    if request.method == 'GET':
+        return render_template("wikiHOME.html")
+    else:
+        query = request.form['text']
+
+        return redirect(url_for('wiki', query = query))
+
+@app.route('/search/heritage/?=<query>', methods = ['GET', 'POST'])
+def wiki(query):
+    if request.method == 'GET':
+
+        searchDoc = {
+            "size": 18,
+            "query": {
+                "dis_max": {
+                    "queries": [
+                        {
+                            "match": {
+                                "title": {
+                                    "query": query,
+                                    "boost": 2
+                                }
+                            }
+                        },
+                        {
+                            "match": {
+                                "description": {
+                                    "query": query,
+                                    "boost": 1.2
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "sort": [
+                { "_score": { "order": "desc" }}
+            ]
+        }
+
+        results = es.search(index = "heritage", doc_type = "doc", body = dumps(searchDoc))
+
+        hindi_results = results
+
+        for i,j in zip(results['hits']['hits'], hindi_results['hits']['hits']):
+            title = i['_source']['title'].decode("utf-8")
+            description = i['_source']['description'].decode("utf-8")
+            j['_source']['description'] = translation.translate(description)
+            j['_source']['title'] = translation.translate(title)
+            print j['_source']['title']
+
+        return render_template('wiki_results.html', results = hindi_results, search_text = query)
+    else:
+        return "Some Error Occured!"
+##################################################################################################
 
 @app.route('/search/news/?=<query>', methods = ['GET', 'POST'])
 def search(query):
@@ -42,7 +105,7 @@ def search(query):
                             "match": {
                                 "description": {
                                     "query": query,
-                                    "boost": 1.5
+                                    "boost": 1.2
                                 }
                             }
                         },
@@ -50,7 +113,7 @@ def search(query):
                             "match": {
                                 "keywords": {
                                     "query": query,
-                                    "boost": 1.2
+                                    "boost": 1.5
                                 }
                             }
                         }
@@ -58,12 +121,12 @@ def search(query):
                 }
             },
             "sort": [
-                { "date":   { "order": "desc" }},
-                { "_score": { "order": "desc" }}
+                { "_score": { "order": "desc" }},
+                { "date":   { "order": "desc" }}
             ]
         }
 
-        results = es.search(index = "hsse", doc_type = "doc", body = dumps(searchDoc), sort = "_score")
+        results = es.search(index = "hsse", doc_type = "doc", body = dumps(searchDoc))
         return render_template('search_results.html', results = results, search_text = query)
     else:
         return "Some Error Occured!"

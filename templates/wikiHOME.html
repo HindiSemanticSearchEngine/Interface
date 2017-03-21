@@ -13,8 +13,8 @@
     <div class="nav-wrapper orange darken-3 z-depth-2">
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="left hide-on-med-and-down">
-        <li><a href="/heritage">भारतीय धरोहर</a></li>
-        <li class="active"><a href="#">समाचार</a></li>
+        <li class="active"><a href="#">भारतीय धरोहर</a></li>
+        <li><a href="/">समाचार</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
         <li class="active orange">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;मुख पृष्ठ</li>
@@ -63,7 +63,7 @@
         <div class="row">
           <div class="col s1 m1 l3"></div>
           <div class="col s10 m10 l6">
-            <form action="{{url_for('index')}}" method="POST">
+            <form action="{{url_for('heritage')}}" method="POST">
               <div class="input-field white z-depth-2">
                 <input id="transliterateTextarea" name="text" type="search" required>
                 <label class="label-icon" for="search"><i class="material-icons">search</i></label>
