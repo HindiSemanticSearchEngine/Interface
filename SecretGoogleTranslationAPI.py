@@ -1,8 +1,13 @@
 # coding=utf-8
-import urllib2
-import urllib
 import json
 import re
+import sys
+import urllib
+import urllib2
+
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 
 class Translate:
     def translate(self, text, target_lang='hi', src_lang='auto'):
