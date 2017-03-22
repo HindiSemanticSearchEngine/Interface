@@ -73,8 +73,8 @@ def wiki(query):
         hindi_results = results
 
         for i,j in zip(results['hits']['hits'], hindi_results['hits']['hits']):
-            title = i['_source']['title'].decode("utf-8")
-            description = i['_source']['description'].decode("utf-8")
+            title = i['_source']['title']
+            description = i['_source']['description']
             j['_source']['description'] = translation.translate(description)
             j['_source']['title'] = translation.translate(title)
             print j['_source']['title']
